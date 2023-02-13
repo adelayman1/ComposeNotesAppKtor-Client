@@ -1,8 +1,6 @@
 package com.example.noteappcompose.domain.usecases
 
-import android.util.Patterns
 import com.example.noteappcompose.domain.models.ValidateResult
-import java.util.regex.Pattern
 import javax.inject.Inject
 
 class ValidatePasswordUseCase @Inject constructor() {

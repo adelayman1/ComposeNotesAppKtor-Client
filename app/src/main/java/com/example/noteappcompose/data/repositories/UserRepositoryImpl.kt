@@ -1,6 +1,5 @@
 package com.example.noteappcompose.data.repositories
 
-import android.util.Log
 import com.example.noteappcompose.data.source.local.dataSource.UserLocalDataSource
 import com.example.noteappcompose.data.source.remote.dataSource.UserRemoteDataSource
 import com.example.noteappcompose.data.source.remote.requestModels.LoginRequestModel
@@ -12,7 +11,6 @@ import com.example.noteappcompose.domain.repositories.UserRepository
 import io.ktor.client.features.ClientRequestException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
-import org.json.JSONObject
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
