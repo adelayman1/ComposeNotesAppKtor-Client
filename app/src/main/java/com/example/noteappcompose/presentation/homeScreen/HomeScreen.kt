@@ -36,6 +36,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.noteappcompose.data.utilities.Constants.CREATE_NEW_NOTE_STATE_ID
 import com.example.noteappcompose.presentation.homeScreen.components.NoteItem
 import com.example.noteappcompose.presentation.homeScreen.components.SearchField
 import com.example.noteappcompose.presentation.homeScreen.uiStates.HomeUiEvent
@@ -102,7 +103,7 @@ fun HomeScreen(
                     FloatingActionButton(
                         onClick = {
                             navController.navigate(
-                                Screen.NoteDetailsScreen.route + "?noteId=-1"
+                                Screen.NoteDetailsScreen.route + "?noteId=$CREATE_NEW_NOTE_STATE_ID"
                             )
                         },
                         containerColor = Orange,

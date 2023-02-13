@@ -22,16 +22,16 @@ class NoteRepositoryImpl @Inject constructor(
 ) : NoteRepository {
     override suspend fun getNotes(): List<NoteModel> {
         try {
-            val getNotesResult = notesRemoteDataSource.getAllNotesKtor()
+            val getNotesResult = notesRemoteDataSource.getAllNotes()
             return getNotesResult.data!!.map { it.toNoteModel() }
         } catch (e: ClientRequestException) {
             throw e.handleError()
         }
     }
 
-    override suspend fun getNote(noteId: String): NoteModel {
+    override suspend fun getNoteDetails(noteId: String): NoteModel {
         try {
-            val getNoteDetailsResult = notesRemoteDataSource.getNoteDetailsKtor(noteId)
+            val getNoteDetailsResult = notesRemoteDataSource.getNoteDetails(noteId)
             return getNoteDetailsResult.data!!.toNoteModel()
         } catch (e: ClientRequestException) {
             throw e.handleError()
@@ -40,7 +40,7 @@ class NoteRepositoryImpl @Inject constructor(
 
     override suspend fun searchNotes(searchWord: String): List<NoteModel> {
         try {
-            val getSearchResult = notesRemoteDataSource.searchNotesKtor(searchWord = searchWord)
+            val getSearchResult = notesRemoteDataSource.searchNotes(searchWord = searchWord)
             return getSearchResult.data!!.map { it.toNoteModel() }
         } catch (e: ClientRequestException) {
             throw e.handleError()
@@ -53,15 +53,13 @@ class NoteRepositoryImpl @Inject constructor(
 
     override suspend fun insertNote(note: String) {
         return externalScope.launch {
-            noteSocketDataSource.sendNote(
-                note
-            )
+            noteSocketDataSource.sendNote(note)
         }.join()
     }
 
     override suspend fun uploadImage(imageAsByte: ByteArray, extension: String): String {
         try {
-            val uploadImageResult = notesRemoteDataSource.uploadImageKtor(imageAsByte)
+            val uploadImageResult = notesRemoteDataSource.uploadImage(imageAsByte)
             return uploadImageResult.data!!
         } catch (e: ClientRequestException) {
             throw e.handleError()

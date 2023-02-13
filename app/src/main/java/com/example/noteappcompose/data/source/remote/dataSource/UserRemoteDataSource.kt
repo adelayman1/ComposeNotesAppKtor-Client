@@ -4,6 +4,7 @@ import com.example.noteappcompose.data.source.remote.requestModels.LoginRequestM
 import com.example.noteappcompose.data.source.remote.requestModels.RegisterRequestModel
 import com.example.noteappcompose.data.source.remote.responseModels.BaseApiResponse
 import com.example.noteappcompose.data.source.remote.responseModels.UserResponseModel
+import com.example.noteappcompose.data.utilities.Constants.BASE_URL
 import io.ktor.client.HttpClient
 import io.ktor.client.request.header
 import io.ktor.client.request.post
@@ -18,7 +19,7 @@ class UserRemoteDataSource @Inject constructor(var httpClient: HttpClient) {
     suspend fun login(loginRequestModel: LoginRequestModel): BaseApiResponse<UserResponseModel> =
         withContext(Dispatchers.IO) {
             httpClient.post {
-                url("http://192.168.1.5:4040/user/login")
+                url("http://$BASE_URL/user/login")
                 header("No-Authorization","true")
                 contentType(ContentType.Application.Json)
                 body = loginRequestModel
@@ -29,7 +30,7 @@ class UserRemoteDataSource @Inject constructor(var httpClient: HttpClient) {
     suspend fun register(registerRequestModel: RegisterRequestModel): BaseApiResponse<UserResponseModel> =
         withContext(Dispatchers.IO) {
             httpClient.post {
-                url("http://192.168.1.5:4040/user/register")
+                url("http://$BASE_URL/user/register")
                 header("No-Authorization","true")
                 contentType(ContentType.Application.Json)
                 body = registerRequestModel

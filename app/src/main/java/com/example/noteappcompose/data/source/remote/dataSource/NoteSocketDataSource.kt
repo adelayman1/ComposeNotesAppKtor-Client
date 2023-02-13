@@ -1,6 +1,7 @@
 package com.example.noteappcompose.data.source.remote.dataSource
 
 import com.example.noteappcompose.data.source.remote.responseModels.NoteResponseModel
+import com.example.noteappcompose.data.utilities.Constants.BASE_URL
 import com.example.noteappcompose.domain.models.NoteModel
 import io.ktor.client.HttpClient
 import io.ktor.client.features.websocket.webSocketSession
@@ -26,7 +27,7 @@ class NoteSocketDataSource @Inject constructor(var client: HttpClient) {
     suspend fun joinSession(userToken: String) {
         try {
             socketSession =
-                client.webSocketSession { url("ws://192.168.1.5:4040/notes-socket?userToken=${userToken}") }
+                client.webSocketSession { url("ws://$BASE_URL/notes-socket?userToken=${userToken}") }
             if (socketSession?.isActive == false) throw Exception("can't connect tot socket")
         } catch (e: Exception) {
             throw e

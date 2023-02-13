@@ -6,6 +6,7 @@ import com.example.noteappcompose.data.source.remote.dataSource.UserRemoteDataSo
 import com.example.noteappcompose.data.source.remote.requestModels.LoginRequestModel
 import com.example.noteappcompose.data.source.remote.requestModels.RegisterRequestModel
 import com.example.noteappcompose.data.utilities.handleError
+import com.example.noteappcompose.data.utilities.isDataHasGotSuccessfully
 import com.example.noteappcompose.domain.models.UserModel
 import com.example.noteappcompose.domain.repositories.UserRepository
 import io.ktor.client.features.ClientRequestException
@@ -20,11 +21,11 @@ class UserRepositoryImpl @Inject constructor(
     val externalScope: CoroutineScope
 ) : UserRepository {
     override suspend fun login(email: String, password: String): UserModel {
-        return try {
+        try {
             return externalScope.async {
                 userRemoteDataSource.login(LoginRequestModel(email, password))
                     .also {
-                        if (it.status && it.data != null) {
+                        if (it.isDataHasGotSuccessfully()) {
                             userLocalDataSource.saveUserToken(it.data!!.userToken)
                         }
                     }
@@ -39,7 +40,7 @@ class UserRepositoryImpl @Inject constructor(
             externalScope.async {
                 userRemoteDataSource.register(RegisterRequestModel(name, email, password))
                     .also {
-                        if (it.status && it.data != null) {
+                        if (it.isDataHasGotSuccessfully()) {
                             userLocalDataSource.saveUserToken(it.data!!.userToken)
                         }
                     }

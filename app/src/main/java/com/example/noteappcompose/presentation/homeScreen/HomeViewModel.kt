@@ -35,14 +35,8 @@ class HomeViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             try {
-                notesUiState = notesUiState.copy(
-                    isLoading = true
-                )
-                //TODO
-//                _searchText.debounce(1000).filterNot {it.isEmpty()}.collect {
-//                    Log.d("SEARCHSEARCHSEARCCH", ":${it} ")
-//                }
-                socketDataSource.joinSession("1ac6061e-2f0d-4c50-8e56-4b664ccc1be3")
+                notesUiState = notesUiState.copy(isLoading = true)
+                socketDataSource.joinSession("48541e0b-b1f8-4948-9787-789c1087fe46")
                 getAllNotesUseCase.invoke().collect {
                     val newNotesList = it.map { note ->
                         NoteItemUiState(
@@ -75,9 +69,7 @@ class HomeViewModel @Inject constructor(
                 notesUiState = notesUiState.copy(searchResult = emptyList())
             else {
                 try {
-                    notesUiState = notesUiState.copy(
-                        isLoading = true
-                    )
+                    notesUiState = notesUiState.copy(isLoading = true)
                     val searchResult = searchUseCase(notesUiState.searchText)
                     val newSearchedList = searchResult.map { note ->
                         NoteItemUiState(

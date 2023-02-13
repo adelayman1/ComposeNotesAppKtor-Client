@@ -1,6 +1,5 @@
 package com.example.noteappcompose.domain.models
 
-
 data class NoteModel(
     val id: String,
     val noteTitle: String,

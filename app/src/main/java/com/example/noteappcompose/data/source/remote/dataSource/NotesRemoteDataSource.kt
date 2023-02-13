@@ -2,6 +2,7 @@ package com.example.noteappcompose.data.source.remote.dataSource
 
 import com.example.noteappcompose.data.source.remote.responseModels.BaseApiResponse
 import com.example.noteappcompose.data.source.remote.responseModels.NoteResponseModel
+import com.example.noteappcompose.data.utilities.Constants.BASE_URL
 import io.ktor.client.HttpClient
 import io.ktor.client.request.forms.MultiPartFormDataContent
 import io.ktor.client.request.forms.formData
@@ -19,14 +20,14 @@ import javax.inject.Inject
 
 class NotesRemoteDataSource @Inject constructor(var httpClient: HttpClient) {
 
-    suspend fun getAllNotesKtor(): BaseApiResponse<List<NoteResponseModel>> =
+    suspend fun getAllNotes(): BaseApiResponse<List<NoteResponseModel>> =
         withContext(Dispatchers.IO) {
-            httpClient.get("http://192.168.1.5:4040/notes")
+            httpClient.get("http://$BASE_URL/notes")
         }
 
-    suspend fun uploadImageKtor(byteArray: ByteArray): BaseApiResponse<String> {
+    suspend fun uploadImage(byteArray: ByteArray): BaseApiResponse<String> {
         return withContext(Dispatchers.IO) {
-            httpClient.post("http://192.168.1.5:4040/notes/image") {
+            httpClient.post("http://$BASE_URL/notes/image") {
                 body = MultiPartFormDataContent(
                     formData {
                         append("file", byteArray, Headers.build {
@@ -39,19 +40,18 @@ class NotesRemoteDataSource @Inject constructor(var httpClient: HttpClient) {
         }
     }
 
-    suspend fun getNoteDetailsKtor(noteId: String): BaseApiResponse<NoteResponseModel> =
+    suspend fun getNoteDetails(noteId: String): BaseApiResponse<NoteResponseModel> =
         withContext(Dispatchers.IO) {
             httpClient.get {
-                url("http://192.168.1.5:4040/notes/$noteId")
+                url("http://$BASE_URL/notes/$noteId")
                 contentType(ContentType.Application.Json)
             }
         }
 
-
-    suspend fun searchNotesKtor(searchWord: String): BaseApiResponse<List<NoteResponseModel>> =
+    suspend fun searchNotes(searchWord: String): BaseApiResponse<List<NoteResponseModel>> =
         withContext(Dispatchers.IO) {
             httpClient.get {
-                url("http://192.168.1.5:4040/notes/search")
+                url("http://$BASE_URL/notes/search")
                 contentType(ContentType.Application.Json)
                 parameter("search_word", searchWord)
             }

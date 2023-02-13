@@ -4,7 +4,7 @@ import com.example.noteappcompose.domain.repositories.UserRepository
 import com.example.noteappcompose.domain.utilitites.InvalidNoteIdException
 import javax.inject.Inject
 
-class IsUserSplashUseCase @Inject constructor(var userRepository: UserRepository) {
+class IsUserSplashUseCase @Inject constructor(private val userRepository: UserRepository) {
     public suspend operator fun invoke(): Boolean {
        return userRepository.getUserToken().isNullOrBlank()
     }
