@@ -1,5 +1,6 @@
 package com.example.noteappcompose.presentation.homeScreen
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -7,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.noteappcompose.data.source.remote.dataSource.NoteSocketDataSource
 import com.example.noteappcompose.domain.usecases.GetAllNotesUseCase
+import com.example.noteappcompose.domain.usecases.InitSocketUseCase
 import com.example.noteappcompose.domain.usecases.SearchUseCase
 import com.example.noteappcompose.presentation.homeScreen.uiStates.HomeUiEvent
 import com.example.noteappcompose.presentation.homeScreen.uiStates.NoteItemUiState
@@ -21,13 +23,9 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getAllNotesUseCase: GetAllNotesUseCase,
-    private val searchUseCase: SearchUseCase,
-    private val socketDataSource: NoteSocketDataSource
+    private val searchUseCase: SearchUseCase
 ) : ViewModel() {
     var notesUiState by mutableStateOf(NotesUiState(isLoading = true))
-
-    //    private val _searchText = MutableStateFlow("")
-//    val searchText: StateFlow<String> = _searchText
 
     private var _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow: SharedFlow<UiEvent> = _eventFlow.asSharedFlow()
@@ -36,7 +34,6 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 notesUiState = notesUiState.copy(isLoading = true)
-                socketDataSource.joinSession("48541e0b-b1f8-4948-9787-789c1087fe46")
                 getAllNotesUseCase.invoke().collect {
                     val newNotesList = it.map { note ->
                         NoteItemUiState(

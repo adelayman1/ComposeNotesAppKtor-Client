@@ -14,9 +14,9 @@ import kotlinx.coroutines.async
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
-    var userRemoteDataSource: UserRemoteDataSource,
-    var userLocalDataSource: UserLocalDataSource,
-    val externalScope: CoroutineScope
+    private var userRemoteDataSource: UserRemoteDataSource,
+    private var userLocalDataSource: UserLocalDataSource,
+    private val externalScope: CoroutineScope
 ) : UserRepository {
     override suspend fun login(email: String, password: String): UserModel {
         try {

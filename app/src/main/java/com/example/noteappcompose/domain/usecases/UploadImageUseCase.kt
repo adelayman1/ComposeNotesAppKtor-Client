@@ -21,7 +21,7 @@ class UploadImageUseCase @Inject constructor(
         context.contentResolver.openInputStream(imageUri)?.buffered()?.use { it.readBytes() }
 
     private fun getImageTypeByUri(imageUri: Uri) = context.contentResolver.getType(imageUri)
-    private fun getImageExtensionByUri(imageUri: Uri):String {
+    private fun getImageExtensionByUri(imageUri: Uri): String {
         val imageType = getImageTypeByUri(imageUri)
         val imageExtension = imageType!!.substring(imageType.indexOf("/") + 1)
         return imageExtension
